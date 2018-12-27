@@ -62,6 +62,8 @@ All routes stay in api/routes folder. We have two routes:
 
 #### GET `/api/users`
 
+![get user](/docs/images/get-user.gif "GET User example")
+
 This route return all users registered in database
 
 response example:
@@ -99,8 +101,6 @@ response example:
 
 #### GET `/api/users/:id`
 
-![get user](https://gph.is/2QVT2j1 "GET User example")
-
 This route return one user filtered by id registered in database
 
 GET `/api/users/5c23865dc74f8c0030d21ecf`
@@ -116,7 +116,7 @@ response example:
 
 #### POST `/api/users/`
 
-![post user](https://gph.is/2Q5Nn4m "POST User example")
+![post user](/docs/images/post-user.gif "POST User example")
 
 This route register one user in database and given one token available from next 24 hours to access `api/employees` route
 Is expected two parameters in payload, username and password. Remembering that the user is unique in the base.
@@ -155,7 +155,7 @@ example:
 
 #### PUT `/api/users/:id`
 
-![put user](https://gph.is/2Q5uDST "PUT User example")
+![put user](/docs/images/put-user.gif "PUT User example")
 
 This route updated the register from one user in database and given token refreshed available from next 24 hours to access `api/employees` route
 Is expected five parameters in payload, username, password, newUsername, newPassword, _id.
@@ -199,7 +199,7 @@ example:
 
 #### DELETE `/api/users/:id`
 
-![delete user](https://gph.is/2VdfvGA "DELETE User example")
+![delete user](/docs/images/delete-user.gif "DELETE User example")
 
 This route return one user filtered by id registered in database
 
@@ -224,7 +224,7 @@ In routes method PUT, POST, DELETE relateds to employees has a step to authoriza
 
 #### GET `/api/employees`
 
-![get employee](https://gph.is/2VaE72M "GET employee")
+![get employee](/docs/images/get-employee.gif "GET employee")
 
 This route return all employees registered in database.
 To access this route you have to be a valid and accredited user.
@@ -324,7 +324,7 @@ response example:
 
 #### POST `/api/employees/`
 
-![post employee](https://gph.is/2BJcLIh "POST employee")
+![post employee](/docs/images/post-employee.gif "POST employee")
 
 This route register one employee in database.
 On body request you has to pass the parameters relative from employee model (firstName, lastName, participation)
@@ -386,7 +386,7 @@ example:
 
 #### PUT `/api/employees/:id`
 
-![put employee](https://gph.is/2QTE0Kz "PUT employee")
+![put employee](/docs/images/put-employee.gif "PUT employee")
 
 This route updated the register from one employee in database.
 Is expected four parameters in payload(firstName, lastName, participation, newPassword, _id)
@@ -445,7 +445,7 @@ example:
 
 #### DELETE `/api/employees/:id`
 
-![delete employee](https://gph.is/2QVduR2 "DELETE employee")
+![delete employee](/docs/images/delete-employee.gif "DELETE employee")
 
 This route return one employee filtered by id registered in database
 
@@ -460,7 +460,7 @@ response example:
 
 ### HOW TO GET TOKEN
 
-![token](https://gph.is/2Q5uDST "Token")
+![token](/docs/images/put-user.gif "Token")
 
 To make the requests from `api/employee` routes you need one user accredited and token.
 
