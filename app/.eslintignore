@@ -1,0 +1,10 @@
+.git
+node_modules
+coverage
+.nyc_output
+gulpfile.js
+package.json
+package-lock.json
+Dockerfile
+README.md
+GettingStarted.md
