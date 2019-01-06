@@ -29,7 +29,7 @@ async function verifyToken(req, res, next) {
             if (user && bcrypt.compareSync(password, user.password)) {
                 jwt.verify(token, config.secret, function (err, decoded) {
                     if (err)
-                        return res.status(500).send({ 
+                        return res.status(401).send({ 
                             auth: false, 
                             message: 'Failed to authenticate token.' 
                         });
@@ -37,7 +37,7 @@ async function verifyToken(req, res, next) {
                     next();
                 });
             } else {
-                res.status(400).send({ auth: false, message: 'Invalid credentials' });
+                res.status(401).send({ auth: false, message: 'Invalid credentials' });
             }
         } catch (error) {
             return res.status(500).send({ auth: false, message: error.message });
