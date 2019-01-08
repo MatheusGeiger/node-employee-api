@@ -4,6 +4,7 @@ var config = require('../config/secret');
 const User = require('../models/user');
 
 function validHeaders(headers) {
+    console.log(`Verifying headers ${JSON.stringify(headers)}`);
     let headersContract = {
         status: 'valid',
         headersExpected: ['authorization', 'username', 'password']
@@ -18,6 +19,7 @@ function validHeaders(headers) {
 }
 
 async function verifyToken(req, res, next) {
+    console.log(`Verifying token ${JSON.stringify(req.headers)}`);
     const responseValidHeaders = validHeaders(req.headers);
     if ('valid' === responseValidHeaders.status) {
 
@@ -28,21 +30,26 @@ async function verifyToken(req, res, next) {
             const user = await User.findOne({ 'username': username }).select('+password');
             if (user && bcrypt.compareSync(password, user.password)) {
                 jwt.verify(token, config.secret, function (err, decoded) {
-                    if (err)
+                    if (err) {
+                        console.log(`Failed to authenticate token ${JSON.stringify(req.headers)}`);
                         return res.status(401).send({ 
                             auth: false, 
-                            message: 'Failed to authenticate token.' 
+                            message: 'Failed to authenticate token.'
                         });
+                    }
                     req.userId = decoded.id;
                     next();
                 });
             } else {
+                console.log(`Invalid credentials ${JSON.stringify(req.headers)}`);
                 res.status(401).send({ auth: false, message: 'Invalid credentials' });
             }
         } catch (error) {
+            console.log(`Erro in verifyToken ${JSON.stringify(req.headers)} Error: ${JSON.stringify(error)}`);
             return res.status(500).send({ auth: false, message: error.message });
         }
     } else {
+        console.log(`Invalid headers ${JSON.stringify(req.headers)} Error: ${responseValidHeaders}`);
         res.status(403).send({ auth: false, message: responseValidHeaders });
     }
 }

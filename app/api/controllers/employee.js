@@ -9,6 +9,7 @@ const filters = {
 };
 
 exports.create = async (req, res) => {
+    console.log(`POST [EMPLOYEE] - Creating Employee`)
     let validationEmployee = isValidEmployee(req.body, 'add');
     if (validationEmployee.status === 'success') {
         let employee = new Employee({
@@ -21,15 +22,22 @@ exports.create = async (req, res) => {
 
         employee.save()
             .then(result => {
+                console.log(`POST [EMPLOYEE] - Employee Created`)
                 res.status(201).json({ message: 'Employee created', result: result });
             })
-            .catch(err => res.status(500).json({ error: err }));
+            .catch(err => {
+                console.log(`POST [EMPLOYEE] - Error to create Employee - ${JSON.stringify(err)}`)                
+                res.status(500).json({ error: err })
+            });
     } else {
+        console.log(`POST [EMPLOYEE] - Bad Request to create - Error ${validationEmployee.error}`);
         res.status(400).json({ error: JSON.parse(validationEmployee.error) });
     }
 };
 
 exports.findEmployees = (req, res) => {
+    console.log(`GET [EMPLOYEE] - Getting Employee`)
+
     let { firstName, indexof, limit } = req.query; // eslint-disable-line no-unused-vars 
 
     if (firstName) {
@@ -47,6 +55,7 @@ exports.findEmployees = (req, res) => {
 };
 
 exports.findEmployeeById = (req, res) => {
+    console.log(`GET [EMPLOYEE] - Getting Employee By id ${req.params.id}`)
     Employee.findById({ _id: req.params.id })
         .exec()
         .then(employees => res.status(200).json(employees))
@@ -54,6 +63,7 @@ exports.findEmployeeById = (req, res) => {
 };
 
 exports.update = (req, res) => {
+    console.log(`PUT [EMPLOYEE] - Updating ${req.body.firstName}`);
     let validationEmployee = isValidEmployee(req.body, 'update');
     if (validationEmployee.status === 'success') {
         const updateOps = {
@@ -64,14 +74,19 @@ exports.update = (req, res) => {
         };
 
         Employee.updateOne({ _id: req.params.id }, { $set: updateOps })
-            .then(res.status(202).json({ message: 'Updated' }))
+            .then(res => {
+                console.log(`PUT [EMPLOYEE] - Createdr ${req.body.firstName}`);
+                res.status(202).json({ message: 'Updated' })
+            })
             .catch(err => res.status(500).json({ error: err }));
     } else {
+        console.log(`PUT [EMPLOYEE] - Invalid request ${validationEmployee.error}`);
         res.status(400).json({ error: JSON.parse(validationEmployee.error) });
     }
 };
 
 exports.delete = (req, res) => {
+    console.log(`DELETE [EMPLOYEE] - Deleting ${req.params.id}`);
     Employee.find({ _id: req.params.id })
         .remove()
         .exec()
