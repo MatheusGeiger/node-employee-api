@@ -72,7 +72,7 @@ exports.findUserById = (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    console.log(`PUT [USER] - Updating user ${req.body.username}`);
+    console.log(`PUT [USER] - Updating user ${JSON.stringify(req.body.username)}`);
     let validationUser = isValidUser(req.body, 'update');
     if (validationUser.status === 'success') {
         let user = await User.findOne({ 
@@ -80,7 +80,7 @@ exports.update = async (req, res) => {
         }).select('+password');
 
         if (!user) {
-            console.log(`PUT [USER] - User not found ${req.body.username}`);
+            console.log(`PUT [USER] - User not found ${JSON.stringify(req.body.username)}`);
             res.status(400).json({ error: 'User not found' });
         } else {
             if (user && bcrypt.compareSync(req.body.password, user.password)) {
@@ -94,7 +94,7 @@ exports.update = async (req, res) => {
 
                 await User.updateOne({ _id: req.params.id }, { $set: updateOps })
                     .then(update => { // eslint-disable-line no-unused-vars 
-                        console.log(`PUT [USER] - User updated ${req.body}`);
+                        console.log(`PUT [USER] - User updated ${JSON.stringify(req.body)}`);
                         var token = jwt.sign({ id: user._id }, config.secret, {
                             expiresIn: 60 * 60
                         });
@@ -102,7 +102,7 @@ exports.update = async (req, res) => {
                     })
                     .catch(err => res.status(500).json({ error: err }));
             }else{
-                console.log(`PUT [USER] - Invalid credentials ${req.body}`);
+                console.log(`PUT [USER] - Invalid credentials ${JSON.stringify(req.body)}`);
                 res.status(400).json({ error: 'invalid credentials' });
             }
         }
