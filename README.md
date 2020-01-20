@@ -1,7 +1,5 @@
 ## API responsible for CRUD to employees and users
 
-[Demo](http://ec2-3-16-29-88.us-east-2.compute.amazonaws.com:3001/api/employees/)
-
 ### OPERATION
 
 This API uses databases not relacional (MongoDB) to save the documents sended, we have one basic and simple auth middleware in the routes interaction to employees document.
